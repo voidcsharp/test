@@ -6,6 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { AlertTriangle, Cable, Scissors, Wrench, Check, ChevronRight, ChevronLeft, Home, List, FileText } from "lucide-react";
 
+
 const steps = [
   {
     title: "1. Prepare Materials",
@@ -21,7 +22,7 @@ const steps = [
         <li>Cable tester (optional but recommended)</li>
       </ul>
     ),
-    image: "/api/placeholder/400/300"
+    image: "https://content.instructables.com/FK9/LPLB/GZACIJ4R/FK9LPLBGZACIJ4R.jpg?auto=webp&frame=1&width=1024&height=1024&fit=bounds&md=MjAxMy0xMi0xNiAxMDowMjoyNy4w"
   },
   {
     title: "2. Measure and Cut",
@@ -35,7 +36,8 @@ const steps = [
           <p className="text-sm">Ensure the cut is clean and perpendicular to the cable.</p>
         </div>
       </div>
-    )
+    ),
+    image: "https://content.instructables.com/FBY/7EPJ/GZACIJ65/FBY7EPJGZACIJ65.jpg?auto=webp&frame=1&width=1024&height=1024&fit=bounds&md=MjAxMy0xMi0xNiAxMDowMjozOC4w"
   },
   {
     title: "3. Strip Outer Jacket",
@@ -53,7 +55,8 @@ const steps = [
           <p className="text-sm">Be careful not to nick the internal wires or foil shield.</p>
         </div>
       </div>
-    )
+    ),
+    image: "https://content.instructables.com/FE3/6N0X/GZACIJ6C/FE36N0XGZACIJ6C.jpg?auto=webp&frame=1&width=1024&height=1024&fit=bounds&md=MjAxMy0xMi0xNiAxMDowMjo0MS4w"
   },
   {
     title: "4. Prepare Wires",
@@ -71,7 +74,8 @@ const steps = [
           <li>Trim the wires to ensure they're even and about 1/2 inch in length.</li>
         </ol>
       </div>
-    )
+    ),
+    image: "https://content.instructables.com/F71/MIL0/GZQR1ORK/F71MIL0GZQR1ORK.jpg?auto=webp&frame=1&width=1024&height=1024&fit=bounds&md=MjAxMy0xMi0xNiAxMTozNTo0Mi4w"
   },
   {
     title: "5. Insert into Connector",
@@ -89,7 +93,8 @@ const steps = [
           <p className="text-sm">Double-check the wire order before crimping!</p>
         </div>
       </div>
-    )
+    ),
+    image: "https://content.instructables.com/F2S/01Y3/GZUAFA6Q/F2S01Y3GZUAFA6Q.jpg?auto=webp&frame=1&width=1024&height=1024&fit=bounds&md=MjAxMy0xMi0xNiAxMTo0NTowMS4w"
   },
   {
     title: "6. Crimp",
@@ -107,7 +112,8 @@ const steps = [
           <p className="text-sm">Ensure the crimp is complete and the connector is securely attached.</p>
         </div>
       </div>
-    )
+    ),
+    image: "https://content.instructables.com/FK2/1YRR/GZUAFQUR/FK21YRRGZUAFQUR.jpg?auto=webp&frame=1&width=1024&height=1024&fit=bounds&md=MjAxMi0wMy0xOSAxMDozMzowMC4w"
   },
   {
     title: "7. Test",
@@ -121,8 +127,9 @@ const steps = [
           <p className="text-sm">A successful test ensures your cable is ready for use!</p>
         </div>
       </div>
-    )
-  }
+    ),
+    image: "https://cdn.shopify.com/s/files/1/0493/9834/9974/files/ethernet-cable-tester_480x480.jpg?v=1721810467"
+  },
 ]
 
 const tools = [
@@ -160,15 +167,15 @@ const tools = [
 
 const Summary = () => (
   <div className="space-y-4">
-    <h3 className="text-xl font-semibold">Summary of Cable Termination Process</h3>
-    <ol className="list-decimal pl-5 space-y-2">
+    <h3 className="text-xl font-semibold text-gray-800">Summary of Cable Termination Process</h3>
+    <ol className="list-decimal pl-5 space-y-2 text-gray-700">
       {steps.map((step, index) => (
         <li key={index}>{step.title} - {step.description}</li>
       ))}
     </ol>
     <div className="mt-4">
-      <h4 className="font-semibold">Important Notes:</h4>
-      <ul className="list-disc pl-5 space-y-1 mt-2">
+      <h4 className="font-semibold text-gray-800">Important Notes:</h4>
+      <ul className="list-disc pl-5 space-y-1 mt-2 text-gray-700">
         <li>Always double-check wire order before crimping</li>
         <li>Ensure a clean cut when stripping the cable</li>
         <li>Test the cable after termination to verify proper functionality</li>
@@ -179,14 +186,14 @@ const Summary = () => (
 
 const Tools = () => (
   <div className="space-y-6">
-    <h3 className="text-xl font-semibold">Required Tools and Materials</h3>
+    <h3 className="text-xl font-semibold text-gray-800">Required Tools and Materials</h3>
     {tools.map((tool, index) => (
       <Card key={index} className="shadow-md">
         <CardHeader>
-          <CardTitle className="text-lg text-blue-800">{tool.name}</CardTitle>
+          <CardTitle className="text-lg text-gray-800">{tool.name}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="mb-2">{tool.description}</p>
+          <p className="mb-2 text-gray-600">{tool.description}</p>
           <a href={tool.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
             Learn More / Purchase
           </a>
@@ -204,11 +211,11 @@ export default function EnhancedSOPComponent() {
   const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 0));
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
-        <header className="bg-blue-600 text-white p-6">
+        <header className="bg-gray-800 text-white p-6">
           <h1 className="text-3xl font-bold">SOP: Ubiquiti Cable Termination</h1>
-          <p className="mt-2 text-blue-100">Standard Operating Procedure for terminating Ubiquiti STP Tough Cable</p>
+          <p className="mt-2 text-gray-300">Standard Operating Procedure for terminating Ubiquiti STP Tough Cable</p>
         </header>
 
         <div className="p-6">
@@ -232,14 +239,14 @@ export default function EnhancedSOPComponent() {
               onClick={() => setActiveTab("tools")}
               className="flex-1 sm:flex-none"
             >
-             
+              <Wrench className="mr-2 h-4 w-4" /> Tools
             </Button>
           </div>
 
           {activeTab === "summary" && (
-            <Card className="mb-8 shadow-lg border-t-4 border-t-blue-600">
+            <Card className="mb-8 shadow-lg border-t-4 border-t-gray-800">
               <CardHeader className="bg-gray-50">
-                <CardTitle className="text-xl text-blue-800">Procedure Summary</CardTitle>
+                <CardTitle className="text-xl text-gray-800">Procedure Summary</CardTitle>
               </CardHeader>
               <CardContent className="pt-6">
                 <Summary />
@@ -248,9 +255,9 @@ export default function EnhancedSOPComponent() {
           )}
 
           {activeTab === "tools" && (
-            <Card className="mb-8 shadow-lg border-t-4 border-t-blue-600">
+            <Card className="mb-8 shadow-lg border-t-4 border-t-gray-800">
               <CardHeader className="bg-gray-50">
-                <CardTitle className="text-xl text-blue-800">Tools and Materials</CardTitle>
+                <CardTitle className="text-xl text-gray-800">Tools and Materials</CardTitle>
               </CardHeader>
               <CardContent className="pt-6">
                 <Tools />
@@ -271,19 +278,19 @@ export default function EnhancedSOPComponent() {
 
               <Progress value={(currentStep / (steps.length - 1)) * 100} className="mb-8" />
 
-              <Card className="mb-8 shadow-lg border-t-4 border-t-blue-600">
+              <Card className="mb-8 shadow-lg border-t-4 border-t-gray-800">
                 <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center bg-gray-50 border-b">
-                  <div className="mr-4 p-3 bg-blue-100 rounded-full mb-4 sm:mb-0">
+                  <div className="mr-4 p-3 bg-gray-200 rounded-full mb-4 sm:mb-0">
                     {steps[currentStep].icon}
                   </div>
                   <div>
-                    <CardTitle className="text-xl text-blue-800">{steps[currentStep].title}</CardTitle>
+                    <CardTitle className="text-xl text-gray-800">{steps[currentStep].title}</CardTitle>
                     <CardDescription className="text-gray-600">{steps[currentStep].description}</CardDescription>
                   </div>
                 </CardHeader>
                 <CardContent className="pt-6">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div>{steps[currentStep].content}</div>
+                    <div className="text-gray-700">{steps[currentStep].content}</div>
                     <div className="flex justify-center items-center">
                       <img src={steps[currentStep].image} alt={`Step ${currentStep + 1}`} className="max-w-full h-auto rounded-lg shadow-md" />
                     </div>
@@ -295,7 +302,7 @@ export default function EnhancedSOPComponent() {
                 <Button onClick={prevStep} disabled={currentStep === 0} variant="outline" className="flex-1 sm:flex-none">
                   <ChevronLeft className="mr-2 h-4 w-4" /> Previous
                 </Button>
-                <Button onClick={nextStep} disabled={currentStep === steps.length - 1} className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700">
+                <Button onClick={nextStep} disabled={currentStep === steps.length - 1} className="flex-1 sm:flex-none bg-gray-800 hover:bg-gray-700">
                   {currentStep === steps.length - 1 ? 'Finish' : 'Next'} <ChevronRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
