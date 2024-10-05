@@ -1,11 +1,23 @@
 'use client'
 
-import React, { useState } from 'react';
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { AlertTriangle, Cable, Scissors, Wrench, Check, ChevronRight, ChevronLeft, Home, List, FileText } from "lucide-react";
+import React, { useState } from 'react'
+import { Button } from "@/components/ui/button"
+import { Progress } from "@/components/ui/progress"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { AlertTriangle, Cable, Scissors, Wrench, Check, ChevronRight, ChevronLeft, Home, List, FileText } from "lucide-react"
+import Image from 'next/image'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { motion, AnimatePresence } from "framer-motion"
 
+// Import the Blinker font
+import { Blinker } from 'next/font/google'
+
+// Initialize the font with required configuration
+const blinker = Blinker({ 
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-blinker'
+})
 
 const steps = [
   {
@@ -163,7 +175,7 @@ const tools = [
     description: "Device for verifying proper cable termination and connectivity.",
     link: "https://www.flukenetworks.com/datacom-cabling/copper-testing/MicroScanner-PoE-Cable-Verifier"
   }
-];
+]
 
 const Summary = () => (
   <div className="space-y-4">
@@ -182,134 +194,136 @@ const Summary = () => (
       </ul>
     </div>
   </div>
-);
+)
 
 const Tools = () => (
   <div className="space-y-6">
     <h3 className="text-xl font-semibold text-gray-800">Required Tools and Materials</h3>
-    {tools.map((tool, index) => (
-      <Card key={index} className="shadow-md">
-        <CardHeader>
-          <CardTitle className="text-lg text-gray-800">{tool.name}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="mb-2 text-gray-600">{tool.description}</p>
-          <a href={tool.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-            Learn More / Purchase
-          </a>
-        </CardContent>
-      </Card>
-    ))}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {tools.map((tool, index) => (
+        <Card key={index} className="shadow-md hover:shadow-lg transition-shadow duration-300">
+          <CardHeader>
+            <CardTitle className="text-lg text-gray-800">{tool.name}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-2 text-gray-600">{tool.description}</p>
+            <a href={tool.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+              Learn More / Purchase
+            </a>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
   </div>
-);
+)
 
 export default function EnhancedSOPComponent() {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [activeTab, setActiveTab] = useState("procedure");
+  const [currentStep, setCurrentStep] = useState(0)
 
-  const nextStep = () => setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
-  const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 0));
+  const nextStep = () => setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1))
+  const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 0))
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
-        <header className="bg-gray-800 text-white p-6">
-          <h1 className="text-3xl font-bold">SOP: Ubiquiti Cable Termination</h1>
-          <p className="mt-2 text-gray-300">Standard Operating Procedure for terminating Ubiquiti STP Tough Cable</p>
-        </header>
-
-        <div className="p-6">
-          <div className="flex flex-wrap justify-between mb-6 gap-4">
-            <Button 
-              variant={activeTab === "procedure" ? "default" : "outline"} 
-              onClick={() => setActiveTab("procedure")}
-              className="flex-1 sm:flex-none"
-            >
-              <List className="mr-2 h-4 w-4" /> Procedure
-            </Button>
-            <Button 
-              variant={activeTab === "summary" ? "default" : "outline"} 
-              onClick={() => setActiveTab("summary")}
-              className="flex-1 sm:flex-none"
-            >
-              <FileText className="mr-2 h-4 w-4" /> Summary
-            </Button>
-            <Button 
-              variant={activeTab === "tools" ? "default" : "outline"} 
-              onClick={() => setActiveTab("tools")}
-              className="flex-1 sm:flex-none"
-            >
-              <Wrench className="mr-2 h-4 w-4" /> Tools
-            </Button>
-          </div>
-
-          {activeTab === "summary" && (
-            <Card className="mb-8 shadow-lg border-t-4 border-t-gray-800">
-              <CardHeader className="bg-gray-50">
-                <CardTitle className="text-xl text-gray-800">Procedure Summary</CardTitle>
-              </CardHeader>
-              <CardContent className="pt-6">
-                <Summary />
-              </CardContent>
-            </Card>
-          )}
-
-          {activeTab === "tools" && (
-            <Card className="mb-8 shadow-lg border-t-4 border-t-gray-800">
-              <CardHeader className="bg-gray-50">
-                <CardTitle className="text-xl text-gray-800">Tools and Materials</CardTitle>
-              </CardHeader>
-              <CardContent className="pt-6">
-                <Tools />
-              </CardContent>
-            </Card>
-          )}
-
-          {activeTab === "procedure" && (
-            <>
-              <nav className="flex flex-wrap justify-between items-center mb-6 gap-4">
-                <Button variant="outline" onClick={() => setCurrentStep(0)} className="flex-1 sm:flex-none">
-                  <Home className="mr-2 h-4 w-4" /> Start
-                </Button>
-                <div className="text-sm font-medium text-gray-500 w-full sm:w-auto text-center">
-                  Step {currentStep + 1} of {steps.length}
-                </div>
-              </nav>
-
-              <Progress value={(currentStep / (steps.length - 1)) * 100} className="mb-8" />
-
-              <Card className="mb-8 shadow-lg border-t-4 border-t-gray-800">
-                <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center bg-gray-50 border-b">
-                  <div className="mr-4 p-3 bg-gray-200 rounded-full mb-4 sm:mb-0">
-                    {steps[currentStep].icon}
-                  </div>
-                  <div>
-                    <CardTitle className="text-xl text-gray-800">{steps[currentStep].title}</CardTitle>
-                    <CardDescription className="text-gray-600">{steps[currentStep].description}</CardDescription>
-                  </div>
+    <div className={`min-h-screen bg-gray-100 py-4 sm:py-6 px-4 sm:px-6 lg:px-8 ${blinker.className}`}>
+      <div className="max-w-5xl mx-auto">
+      <div className="bg-white rounded-lg shadow-[0_0_10px_rgba(76,175,80,0.5)] overflow-hidden">
+      <header className="relative h-20 sm:h-32 flex justify-center items-center">
+            <Image
+              src="/images/back_swirls_with_WORDS.png"
+              alt="SOP Banner"
+              width={500}
+              height={500}
+              style={{ objectFit: 'cover' }}
+            />
+          </header>
+          <div className="p-6 bg-gray-100 border-b border-gray-200">
+          <h1 className="text-3xl font-bold text-[#4caf50] mb-4 text-center">SOP: Ubiquiti Cable Termination</h1>          </div>
+          <Tabs defaultValue="procedure" className="p-6">
+            <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 mb-6 bg-gray-100 p-1 rounded-lg shadow-md">
+              <TabsTrigger value="procedure" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                <List className="mr-2 h-4 w-4" /> Procedure
+              </TabsTrigger>
+              <TabsTrigger value="summary" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                <FileText className="mr-2 h-4 w-4" /> Summary
+              </TabsTrigger>
+              <TabsTrigger value="tools" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                <Wrench className="mr-2 h-4 w-4" /> Tools
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="summary">
+            <Card className="shadow-[0_0_10px_rgba(76,175,80,0.5)] border-t-4 border-[#4caf50]">
+            <CardHeader className="bg-gray-50">
+                  <CardTitle className="text-xl text-gray-800">Procedure Summary</CardTitle>
                 </CardHeader>
                 <CardContent className="pt-6">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="text-gray-700">{steps[currentStep].content}</div>
-                    <div className="flex justify-center items-center">
-                      <img src={steps[currentStep].image} alt={`Step ${currentStep + 1}`} className="max-w-full h-auto rounded-lg shadow-md" />
-                    </div>
-                  </div>
+                  <Summary />
                 </CardContent>
               </Card>
+            </TabsContent>
+            <TabsContent value="tools">
+              <Card className="mb-8 shadow-lg border-t-4 border-green-500">
+                <CardHeader className="bg-gray-50">
+                  <CardTitle className="text-xl text-gray-800">Tools and Materials</CardTitle>
+                </CardHeader>
+                <CardContent className="pt-6">
+                  <Tools />
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent value="procedure">
+              <div className="space-y-6">
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                  <Button variant="outline" onClick={() => setCurrentStep(0)} className="w-full sm:w-auto">
+                    <Home className="mr-2 h-4 w-4" /> Start
+                  </Button>
+                  <div className="text-sm font-medium text-gray-500">
+                    Step {currentStep + 1} of {steps.length}
+                  </div>
+                </div>
+                <Progress value={(currentStep / (steps.length - 1)) * 100} className="w-full" />
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentStep}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Card className="shadow-[0_0_10px_rgba(76,175,80,0.5)] border-t-4 border-[#4caf50]">
 
-              <div className="flex flex-wrap justify-between mt-8 gap-4">
-                <Button onClick={prevStep} disabled={currentStep === 0} variant="outline" className="flex-1 sm:flex-none">
-                  <ChevronLeft className="mr-2 h-4 w-4" /> Previous
-                </Button>
-                <Button onClick={nextStep} disabled={currentStep === steps.length - 1} className="flex-1 sm:flex-none bg-gray-800 hover:bg-gray-700">
+                      <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center bg-gray-50 border-b">
+                        <div className="mr-4 p-3 bg-blue-100 rounded-full mb-4 sm:mb-0">
+                          {steps[currentStep].icon}
+                        </div>
+                        <div>
+                          <CardTitle className="text-xl text-gray-800">{steps[currentStep].title}</CardTitle>
+                          <CardDescription className="text-gray-600">{steps[currentStep].description}</CardDescription>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                          <div className="text-gray-700">{steps[currentStep].content}</div>
+                          <div className="flex justify-center items-center">
+                            <img src={steps[currentStep].image} alt={`Step ${currentStep + 1}`} className="max-w-full h-auto rounded-lg shadow-md" />
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                </AnimatePresence>
+                <div className="flex flex-col sm:flex-row justify-between mt-6 gap-4">
+                  <Button onClick={prevStep} disabled={currentStep === 0} variant="outline" className="w-full sm:w-auto">
+                    <ChevronLeft className="mr-2 h-4 w-4" /> Previous
+                  </Button>
+                  <Button onClick={nextStep} disabled={currentStep === steps.length - 1} className="w-full sm:w-auto bg-[#4caf50] hover:bg-[#3e8e41] text-white">
                   {currentStep === steps.length - 1 ? 'Finish' : 'Next'} <ChevronRight className="ml-2 h-4 w-4" />
-                </Button>
+                  </Button>
+                </div>
               </div>
-            </>
-          )}
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </div>
-  );
+  )
 }
