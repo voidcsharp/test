@@ -15,6 +15,16 @@ const user = {
   avatar: null, // Set to null to test default avatar
   isLoggedIn: false // Set to false to test logged out state
 }
+type User = {
+  name: string;
+  avatar: string | null;
+  isLoggedIn: boolean;
+};
+
+// Use this type for the component props
+type UserProfileProps = {
+  user: User;
+};
 
 export default function RootLayout({
   children,
@@ -126,7 +136,7 @@ function NavItems() {
     </ul>
   )
 }
-function UserProfile({ user }) {
+function UserProfile({ user }: UserProfileProps) {
   if (!user.isLoggedIn) {
     return (
       <div className="border-t border-gray-200 p-4">
